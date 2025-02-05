@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, Admin!</p>
-</div>
+    <h2>Admin Dashboard</h2>
+    <a href="{{ route('admin.users') }}">Manage Users</a>
 @endsection
