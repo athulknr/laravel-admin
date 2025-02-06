@@ -9,8 +9,16 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    use Search; // Use the search trait we created earlier
+
+    protected $searchable = [
+        'name',
+        'email',
+        'phone_no',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +28,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'phone',
+        'phone_no',
+        'role',
         'password',
         'description',
     ];
@@ -47,6 +56,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
+
 
 }
