@@ -14,6 +14,7 @@ Route::get('/', function () {
 });
 
 
+Route::put('/user/{id}', [DashboardController::class, 'update'])->name('user.update');
 
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
