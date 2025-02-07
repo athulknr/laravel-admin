@@ -58,36 +58,31 @@ class DashboardController extends Controller
         return view('dashboard', compact('users'));
     }
 
-    public function edit($id)
-    {
-    // Fetch the user by id
-    $user = User::findOrFail($id);
-
-    // Return the view and pass the user data
-    return view('user.edit', compact('user'));
-    }
 
     // Method to add a new user
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone_no' => 'nullable|string|max:15',
-            'role' => 'required|in:admin,user',
-        ]);
+{
+    // Validate form inputs
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'phone_no' => 'nullable|string|max:15',
+        'role' => 'required|in:admin,user',
+    ]);
 
-        // Create a new user
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone_no = $request->phone_no;
-        $user->role = $request->role;
-        $user->password = Hash::make('password'); // or a password input field in the form
-        $user->save();
+    // Create a new user
+    $user = new User();
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone_no = $request->phone_no;
+    $user->role = $request->role;
+    $user->password = Hash::make('password');
+    $user->description = $request->description;
+    $user->save();
 
-        return redirect()->route('dashboard')->with('success', 'User added successfully');
-    }
+    // Redirect with success message
+    return redirect()->route('dashboard')->with('success', 'User added successfully');
+}
 
 
 
@@ -99,6 +94,17 @@ class DashboardController extends Controller
         return redirect()->route('dashboard')->with('success', 'User deleted successfully');
     }
 
+
+    // Edit user
+
+    public function edit($id)
+    {
+    // Fetch the user by id
+    $user = User::findOrFail($id);
+
+    // Return the view and pass the user data
+    return view('user.edit', compact('user'));
+    }
 
 
 }
