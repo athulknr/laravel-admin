@@ -7,24 +7,21 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
-Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::put('/users/update/{id}', [UserController::class, 'update'])->name('user.update');
 
 Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
 Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
 
-Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
 
 
 Route::get('/search-users', [DashboardController::class, 'search'])->name('users.search');
 
 
-Route::get('/users', [DashboardController::class, 'index'])->name('users.index');
+// Route::get('/users', [DashboardController::class, 'index'])->name('users.index');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 

@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::orderBy('id','desc')->paginate(10);
         return view('dashboard', compact('users'));
     }
 
@@ -47,9 +47,16 @@ class UserController extends Controller
     // Delete a user
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
-        return redirect()->route('dashboard')->with('success', 'User deleted successfully');
+    $user = User::find($id);
+
+    if ($user) {
+        $user->delete();
+        return response()->json(['success' => true]);
     }
+
+    return response()->json(['success' => false], 404);
+    }
+
 
     public function edit($id)
 {
@@ -57,7 +64,7 @@ class UserController extends Controller
     return view('users.edit', compact('user'));
 }
 
-    // Update user details
+
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);

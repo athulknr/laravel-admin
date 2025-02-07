@@ -47,7 +47,7 @@
                                 <td>{{ $user->phone_no ?? 'N/A' }}</td>
                                 <td id="role-{{ $user->id }}">{{ $user->role }}</td>
                                 <td>
-                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                                 <td><!-- Delete Button -->
                                     <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
@@ -102,7 +102,7 @@
                                         <td>${user.phone_no ?? 'N/A'}</td>
                                         <td>${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</td>
                                         <td>
-                                            <form action="/user/${user.id}" method="POST" class="d-inline">
+                                            <form action="/users/${user.id}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger text-white" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
@@ -124,6 +124,68 @@
 
     <!-- JavaScript to Populate Modal Fields -->
     <script>
+        $(document).ready(function() {
+            // AJAX DELETE request
+            $(document).on('click', '.delete-user', function() {
+                let userId = $(this).data('id'); // Get user ID from button attribute
+                let url = "{{ url('users') }}/" + userId; // Construct URL for DELETE request
 
+                if (confirm('Are you sure you want to delete this user?')) {
+                    $.ajax({
+                        url: url,
+                        type: "DELETE",
+                        data: {
+                            _token: "{{ csrf_token() }}" // Send CSRF token for security
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Remove the deleted user row from the table
+                                $("#user-row-" + userId).fadeOut(500, function() {
+                                    $(this).remove();
+                                });
+                            } else {
+                                alert("Error deleting user!");
+                            }
+                        },
+                        error: function(xhr) {
+                            alert("Something went wrong!");
+                        }
+                    });
+                }
+            });
+        });
     </script>
+<script>
+
+    $(document).ready(function() {
+        // AJAX DELETE request
+        $(document).on('click', '.delete-user', function() {
+            let userId = $(this).data('id'); // Get user ID from button attribute
+            let url = "{{ url('users') }}/" + userId; // Construct URL for DELETE request
+
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: url,
+                    type: "DELETE",
+                    data: {
+                        _token: "{{ csrf_token() }}" // Send CSRF token for security
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Remove the deleted user row from the table
+                            $("#user-row-" + userId).fadeOut(500, function() {
+                                $(this).remove();
+                            });
+                        } else {
+                            alert("Error deleting user!");
+                        }
+                    },
+                    error: function(xhr) {
+                        alert("Something went wrong!");
+                    }
+                });
+            }
+        });
+    });
+</script>
 </x-app-layout>

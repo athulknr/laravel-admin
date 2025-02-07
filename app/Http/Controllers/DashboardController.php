@@ -53,7 +53,7 @@ class DashboardController extends Controller
             });
         }
 
-        $users = $query->orderBy('id', 'asc')->paginate(6);
+        $users = $query->orderBy('id', 'desc')->paginate(6);
 
         return view('dashboard', compact('users'));
     }
