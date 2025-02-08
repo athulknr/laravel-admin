@@ -42,6 +42,9 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
+        $users = User::orderBy('id','desc')->paginate(10);
+        return view('dashboard', compact('users'));
+
         $query = User::where('id', '>', 1);
 
         if ($request->has('search')) {

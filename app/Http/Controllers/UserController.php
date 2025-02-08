@@ -11,8 +11,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('id','desc')->paginate(10);
-        return view('dashboard', compact('users'));
+        $users = User::where('role', '!=', 'admin')->orderBy('id', 'desc')->get();
+        return view('users.index', compact('users'));
+
     }
 
     public function create()
@@ -87,7 +88,6 @@ class UserController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'User updated successfully');
     }
-
 
 
 

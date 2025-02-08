@@ -2,11 +2,15 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
 
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
 Route::put('/users/update/{id}', [UserController::class, 'update'])->name('user.update');
 
@@ -20,18 +24,19 @@ Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update
 
 Route::get('/search-users', [DashboardController::class, 'search'])->name('users.search');
 
+//model
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+Route::put('/users/{id}/update', [UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy');
+
 
 // Route::get('/users', [DashboardController::class, 'index'])->name('users.index');
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+//Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/users', function () {
-    $users = User::all();
-    return response()->json($users);
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
